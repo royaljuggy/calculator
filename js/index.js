@@ -33,7 +33,7 @@ let display = document.getElementById("display");
 // adding functionality to each number button
 for (let i = 0; i < allNumberBtn.length; i++) {
     let btn_i = allNumberBtn[i]
-    btn_i.addEventListener("click", function() {
+    btn_i.addEventListener("click", function () {
         addNumToDisplay(i)
     })
 }
@@ -41,21 +41,31 @@ for (let i = 0; i < allNumberBtn.length; i++) {
 // Adds a number to the end of an existing number in the text area
 // * Input: 0-9 or .
 function addNumToDisplay(n) {
-    display.innerHTML += n
+    display.textContent += n
 }
 
 // adding functionality to each operation button
 for (let i = 0; i < allOperationBtn.length; i++) {
     let btn_i = allOperationBtn[i]
-    btn_i.addEventListener("click", function() {
+    btn_i.addEventListener("click", function () {
         storeOperation(btn_i.innerText)
     })
 }
 
 function storeOperation(strOperation) {
-    numbers.push(parseFloat(display.innerHTML))
-    operations.push(strOperation)
-    display.innerHTML = ""
+    let inputContent = parseFloat(display.textContent)
+
+    if (inputContent) {
+        numbers.push(inputContent)
+        operations.push(strOperation)
+        display.textContent = ""
+    } 
+
+    console.log(operations)
+    
+    
+    // operations.push(strOperation)
+    // display.textContent = ""
 }
 
 // Decimal functionality
@@ -67,7 +77,7 @@ btn_dec.addEventListener("click", function () {
 
 // Clear textarea functionality
 btn_clear.addEventListener("click", function () {
-    display.innerHTML = ""
+    display.textContent = ""
     btn_dec.disabled = false
     btn_dec.style.opacity = "100%"
     numbers = []
@@ -77,18 +87,24 @@ btn_clear.addEventListener("click", function () {
 // Equals functionality
 btn_equal.addEventListener("click", function () {
 
-    numbers.push(parseFloat(display.innerHTML)) //adds current number to the numbers array
+    numbers.push(parseFloat(display.textContent)) //adds current number to the numbers array
 
     if (numbers.length === 0) {
-        display.innerHTML = "No input. Press CLEAR to try again."
+        display.textContent = "No input. Press CLEAR to try again."
     } else if (operations.length === 0) {
-        display.innerHTML = numbers[0]
+        display.textContent = numbers[0]
     } else if (numbers.length === 1) {
-        display.innerHTML = numbers[0]
+        display.textContent = numbers[0]
     } else {
-
+        console.log(numbers)
+        console.log(operations)
         // Calculator currently only supports two numbers.
-        display.innerHTML = applyMath(numbers[0], numbers[1], operations[0])
+        let answer = applyMath(numbers[0], numbers[1], operations[0])
+        display.textContent = answer
+
+        // after press equals, reset the held numbers
+        numbers = []
+        operations = []
     }
 })
 
