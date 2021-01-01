@@ -54,18 +54,15 @@ for (let i = 0; i < allOperationBtn.length; i++) {
 
 function storeOperation(strOperation) {
     let inputContent = parseFloat(display.textContent)
+    btn_dec.disabled = false
+    btn_dec.style.opacity = "100%"
 
     if (inputContent) {
         numbers.push(inputContent)
         operations.push(strOperation)
         display.textContent = ""
     } 
-
-    console.log(operations)
-    
-    
-    // operations.push(strOperation)
-    // display.textContent = ""
+    console.log(numbers)
 }
 
 // Decimal functionality
@@ -86,8 +83,13 @@ btn_clear.addEventListener("click", function () {
 
 // Equals functionality
 btn_equal.addEventListener("click", function () {
-
-    numbers.push(parseFloat(display.textContent)) //adds current number to the numbers array
+    let input = parseFloat(display.textContent)
+    if (input) {
+        numbers.push(input)
+    }
+    
+    btn_dec.disabled = false
+    btn_dec.style.opacity = "100%"
 
     if (numbers.length === 0) {
         display.textContent = "No input. Press CLEAR to try again."
@@ -96,8 +98,6 @@ btn_equal.addEventListener("click", function () {
     } else if (numbers.length === 1) {
         display.textContent = numbers[0]
     } else {
-        console.log(numbers)
-        console.log(operations)
         // Calculator currently only supports two numbers.
         let answer = applyMath(numbers[0], numbers[1], operations[0])
         display.textContent = answer
@@ -107,17 +107,6 @@ btn_equal.addEventListener("click", function () {
         operations = []
     }
 })
-
-
-// function applyOperations(numbers, operations, currentNumber) {
-//     if (numbers.length === 1) {
-//         applyMath(currentNumber, numbers.shift(), operations.shift())
-//     } else {
-//         let firstNum = numbers.shift()
-//         let firstOp = operations.shift()
-//         return applyOperations(numbers, operations, applyMath(currentNumber, firstNum, firstOp))
-//     }
-// }
 
 // applyMath: applies the math operation of strOperation to a and b
 // Input: number, number, String (representing a math op.)
